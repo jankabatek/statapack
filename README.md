@@ -25,15 +25,17 @@ If you like these commands and would like to help with converting them into prop
 ## Example 1: Conditional frequencies with PLOTTABS
 
 This example is equivalent to merging two histograms with discrete bin widths (with option *freq*):
-
-  webuse set https://www.jankabatek.com/datasets/
-  webuse plotdata, clear
-  qui do https://raw.githubusercontent.com/jankabatek/statapack/master/PLOTTABS.do
-  // first histogram (gr=1), option clear erases previous PLOT data from the memory
-  PLOTTABS if gr==1, over(x1) clear 
-  // second histogram (gr=2), specify the graph type, twoway options & graph options (options are wrapped in `" "' to allow for titles and legends that use parentheses) 
-  PLOTTABS if gr==2, over(x1) graph(bar) options(`" title("Frequencies of observations, conditional on x") xtitle("x") ytitle("Frequency") legend(on order(1 "Group 1" 2 "Group 2")) xsize(7)"')  gropt(`"color(%50)"')
  
-![2 histograms](figures/2histograms.jpg) 
+![2 histograms](figures/2histograms.png) 
+
+Code:
+
+    webuse set https://www.jankabatek.com/datasets/
+    webuse plotdata, clear
+    qui do https://raw.githubusercontent.com/jankabatek/statapack/master/PLOTTABS.do
+    // first histogram (gr=1), option clear erases previous PLOT data from the memory
+    PLOTTABS if gr==1, over(x1) clear 
+    // second histogram (gr=2), specify the graph type, twoway options & graph options (options are wrapped in `" "' to allow for titles and legends that use parentheses) 
+    PLOTTABS if gr==2, over(x1) graph(bar) options(`" title("Frequencies of observations, conditional on x") xtitle("x") ytitle("Frequency") legend(on order(1 "Group 1" 2 "Group 2")) xsize(7)"')  gropt(`"color(%50)"')
 
 
