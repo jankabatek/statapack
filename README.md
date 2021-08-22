@@ -34,6 +34,6 @@ This example is equivalent to merging two histograms with discrete bin widths (w
   // second histogram (gr=2), specify the graph type, twoway options & graph options (options are wrapped in `" "' to allow for titles and legends that use parentheses) 
   PLOTTABS if gr==2, over(x1) graph(bar) options(`" title("Frequencies of observations, conditional on x") xtitle("x") ytitle("Frequency") legend(on order(1 "Group 1" 2 "Group 2")) xsize(7)"')  gropt(`"color(%50)"')
  
-![2 histograms](figures/2histograms.jpg)
+![2 histograms](figures/2histograms.jpg) 
 
 
