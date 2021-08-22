@@ -1,12 +1,13 @@
 ********************************************************************************
-*         PLOTTABS - plots frequencies or rates from tabulated variables         
+*         PLOTTABS - plots frequencies or shares from tabulated variables         
 ********************************************************************************
-* PLOTTABS 	tabulates one or more variables oneway (twoway), and plots 
-* 			the resulting frequencies (rates) against the values of (row) variable
+* PLOTTABS 	tabulates oneway (twoway) and plots the resulting frequencies 
+* 			(shares) against the values of the grouping variable
 *
-* REQUIRES: one variable (or two variables, second one being a dummy)
+* REQUIRES: one grouping variable over()
 *			 
-* INPUT: 	varlist = variables that are tabulated, first one is the row variable
+* INPUT: 	over()   = grouping variable
+* 			varlist  = optional dummy variable in case we're plotting shares
 *
 * OPTIONAL: clear 	 = delete stored graphs. Without this option, additional 
 *                      graphs are stored in the same data frame and plotted
@@ -29,8 +30,8 @@
 *           - graphregion is white by default, and ysize is set to 5
 *			  
 /* EXAMPLE: 
-			sysuse nlsw88.dta
-			PLOTTABS age collgrad, clear row gr(connected) opt(`" title("Share of college graduates, by age") xtitle("Age") ytitle("Share") "')
+			sysuse nlsw88.dta, clear
+			PLOTTABS collgrad, over(age) clear row gr(connected) opt(`" title("Share of college graduates, by age") xtitle("Age") ytitle("Share") "')
 */
 *
 *------------------j.kabatek@unimelb.edu.au, 08/2021, (c)----------------------*
@@ -56,9 +57,9 @@ end
 capture program drop PLOTTABS 
 
 program define PLOTTABS
-	syntax [varlist(max=2)] [if], [clear DIVide(real 1) dif FRame(string) FMT(string) GRaph(name) GRAYscale GROPTions(string) ///
+	syntax [varname(default=none)] [if], over(varname) [clear DIVide(real 1) dif FRame(string) FMT(string) GRaph(name) GRAYscale GROPTions(string) ///
 								 IFLabel NOGen NODraw OPTions(string) PATtern PATTERNCol PLOTonly  ///  
-								 RELative row  TWOff YZero ] 		
+								 RELative TWOff YZero ] 		
 								 
 	qui {
 		
@@ -83,7 +84,7 @@ program define PLOTTABS
 		}
 		
 		** check whether plotted variable(s) exist (nullifies _rc for the rest)
-		cap confirm var `varlist'
+		cap confirm var `varname' `over'
 	 
 		** how many graphs are stored already?
 		local i = 0
@@ -97,13 +98,12 @@ program define PLOTTABS
 			n di as err `i' " - plotting already stored graphs"
 		}
 		else {	
-			n di as err `i' " - tabulating values for a new graph"
-			
+			n di as err `i' " - tabulating values for a new graph" 
 			** tabulate command
-			tab `varlist' `if' , matcell(cell_val`i') matrow(x_val)
+			tab `over' `varname' `if' , matcell(cell_val`i') matrow(x_val)
 			
-			** compute a rate for a binary column variale? 
-			if "`row'" != "" {
+			** compute conditional shares for the binary variable 'varlist'? 
+			if "`varlist'" != "" {
 				local M = rowsof(cell_val`i')
 				mat plot_val`i' = J(`M',1,0)
 				forvalues m = 1/`M' {
@@ -119,7 +119,7 @@ program define PLOTTABS
 					}
 				}
 			}
-			** or plot frequencies of the 1st column?
+			** or plot frequencies over the grouping variable?
 			else {
 				mat plot_val`i' = cell_val`i'
 				if "`relative'" != "" {
@@ -154,8 +154,9 @@ program define PLOTTABS
 				frame `frame_pt': label var plot_val`i'1 `"`if'"' 
 			}
 			else {
-				local aux_num = wordcount("`varlist'")
-				local aux_label : word `aux_num' of `varlist'				
+				*local aux_num = wordcount("`varname'")
+				*local aux_label : word `aux_num' of `varname'	
+				local aux_label = "`varname'"
 				frame `frame_pt': label var plot_val`i'1  "`aux_label'"
 			}	
 		}  
@@ -233,3 +234,4 @@ program define PLOTTABS
 	}
 end
  
+ PLOTTABS, over(age) clear
