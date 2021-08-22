@@ -39,3 +39,32 @@ Code:
     PLOTTABS if gr==2, over(x1) graph(bar) options(`" title("Frequencies of observations, conditional on x") xtitle("x") ytitle("Frequency") legend(on order(1 "Group 1" 2 "Group 2")) xsize(7)"')  gropt(`"color(%50)"')
 
 
+## Example 2: Conditional means with PLOTMEANS
+
+This example plots conditional means of variable *y* (*x* is the conditioning variable) for ten groups of observations.
+ 
+![Conditional means](figures/condmeans.png) 
+
+Code:
+
+    webuse set https://www.jankabatek.com/datasets/
+    webuse plotdata, clear
+    qui do https://raw.githubusercontent.com/jankabatek/statapack/master/PLOTMEANS.do
+    // conditional means for the first group (gr10=1), option clear erases previous PLOT data from the memory
+    PLOTMEANS y if gr10 ==1, over(x2) clear
+    // conditional means for the other groups, specify the twoway options & graph options (options are wrapped in `" "' to allow for titles and legends that use parentheses) 
+    for num 2/10: PLOTMEANS y if gr10 ==X, over(x2) gray opt(legend(off) ytitle(y) xtitle(x) title(Conditional means of outcome y for 10 groups) xsize(6))
+
+
+## Example 3: Stacked conditional shares with PLOTAREA
+
+This example plots how many observations belong to one of the four mutually-exclusive groups of observations, conditional on a specific value of $x$.
+ 
+![Conditional shares](figures/plotarea.png) 
+
+Code:
+
+    webuse set https://www.jankabatek.com/datasets/
+    webuse plotdata, clear
+    qui do https://raw.githubusercontent.com/jankabatek/statapack/master/PLOTAREA.do
+    PLOTAREA z, over(x3) opt(`" title("Shares of observations belonging"  "to groups 1-4, conditional on x") xtitle("x") ytitle("Share") legend(on rows(4) pos(3) order(1 "Group 1" 2 "Group 2" 3 "Group 3" 4 "Group 4")) xsize(7) "')
