@@ -11,12 +11,13 @@
 * OPTIONAL: clear 	 = delete stored graphs. Without this option, additional 
 *                      graphs are stored in the same data frame and plotted
 *			frame    = choose name for the data frame that stores the graphs 
-*			options  = add any stata graph options: opt(`" "')
+*			options  = add any stata twoway options: opt(`" "')
+*			groptions= add any stata graph options (for each plotted graph)
 *			nogen 	 = suppress graph, generates only data
 *			plotonly = do not tabulate new values, plot stored graphs only
 *			row 	 = plot twoway rates, default is oneway frequencies 
-*
-*			graph 	 = choose graph type. Default is a line
+* 
+* 			graph 	 = choose graph type. Default is a line
 * 			grayscale= self-explanatory
 *			iflabel  = label lines by used if-conditions 
 *			pattern	 = visual separation of distinct graph lines
@@ -29,7 +30,7 @@
 *			  
 /* EXAMPLE: 
 			sysuse nlsw88.dta
-			PLOTTABS age collgrad, clear row gr(connected) opt(`" title("Share of college gradiates, by age") xtitle("Age") ytitle("Share") "')
+			PLOTTABS age collgrad, clear row gr(connected) opt(`" title("Share of college graduates, by age") xtitle("Age") ytitle("Share") "')
 */
 *
 *------------------j.kabatek@unimelb.edu.au, 08/2021, (c)----------------------*
@@ -55,7 +56,7 @@ end
 capture program drop PLOTTABS 
 
 program define PLOTTABS
-	syntax [varlist(max=2)] [if], [clear DIVide(real 1) dif FRame(string) FMT(string) GRaph(name) GRAYscale ///
+	syntax [varlist(max=2)] [if], [clear DIVide(real 1) dif FRame(string) FMT(string) GRaph(name) GRAYscale GROPTions(string) ///
 								 IFLabel NOGen NODraw OPTions(string) PATtern PATTERNCol PLOTonly  ///  
 								 RELative row  TWOff YZero ] 		
 								 
@@ -214,7 +215,7 @@ program define PLOTTABS
 		if "`twoff'"== "" {
 			local graph_syntax = ""
 			forvalues j = 1/`i'{
-				local graph_syntax `graph_syntax' (`graph' plot_val`j'1 x_val1 , `pattern`j'' )
+				local graph_syntax `graph_syntax' (`graph' plot_val`j'1 x_val1 , `pattern`j'' `groptions' )
 			}
 			local graph_syntax twoway `graph_syntax'
 		}	
