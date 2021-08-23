@@ -25,7 +25,7 @@
 *			  
 /* EXAMPLE: 
 			sysuse nlsw88.dta
-			PLOTSUMS wage, over(age) clear gr(connected) opt(`" title("Average wages by age") xtitle("Age") ytitle("Avg. wage") "')
+			PLOTSUMS wage, over(age) clear gr(connected) opt( title("Average wages by age") xtitle("Age") ytitle("Avg. wage") )
 */
 *
 *------------------j.kabatek@unimelb.edu.au, 08/2021, (c)----------------------*
@@ -33,7 +33,7 @@
 capture program drop PLOTMEANS
 
 program define PLOTMEANS
-	syntax varlist(max=1) [if], over(varname) [clear divx(int 1) FRame(string) GRaph(name) GRAYscale NOGen NOLabel OPTions(string) PATtern IFLabel PLOTonly  ] 
+	syntax varlist(max=1) [if], over(varname) [clear divx(int 1) FRame(string) GRaph(name) GRAYscale NOGen NOLabel OPTions(string asis) PATtern IFLabel PLOTonly  ] 
 								
 	qui {
 	    

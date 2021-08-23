@@ -35,8 +35,8 @@ Code:
     qui do https://raw.githubusercontent.com/jankabatek/statapack/master/PLOTTABS.do
     // first histogram (gr=1), option clear erases previous PLOT data from the memory
     PLOTTABS if gr==1, over(x1) clear 
-    // second histogram (gr=2), specify the graph type, twoway options & graph options (options are wrapped in `" "' to allow for titles and legends that use parentheses) 
-    PLOTTABS if gr==2, over(x1) graph(bar) options(`" title("Frequencies of observations, conditional on x") xtitle("x") ytitle("Frequency") legend(on order(1 "Group 1" 2 "Group 2")) xsize(7)"')  gropt(`"color(%50)"')
+    // second histogram (gr=2), specify the visualization options: graph() type, overall twoway options() & graph-specific groptions() 
+    PLOTTABS if gr==2, over(x1) graph(bar) options(title("Frequencies of observations, conditional on x") xtitle("x") ytitle("Frequency") legend(on order(1 "Group 1" 2 "Group 2")) xsize(7))  groptions(color(%50))
 
 
 ## Example 2: Conditional means with PLOTMEANS
@@ -67,4 +67,4 @@ Code:
     webuse set https://www.jankabatek.com/datasets/
     webuse plotdata, clear
     qui do https://raw.githubusercontent.com/jankabatek/statapack/master/PLOTAREA.do
-    PLOTAREA z, over(x3) opt(`" title("Shares of observations belonging"  "to groups 1-4, conditional on x") xtitle("x") ytitle("Share") legend(on rows(4) pos(3) order(1 "Group 1" 2 "Group 2" 3 "Group 3" 4 "Group 4")) xsize(7) "')
+    PLOTAREA z, over(x3) opt(title("Shares of observations belonging"  "to groups 1-4, conditional on x") xtitle("x") ytitle("Share") legend(on rows(4) pos(3) order(1 "Group 1" 2 "Group 2" 3 "Group 3" 4 "Group 4")) xsize(7))

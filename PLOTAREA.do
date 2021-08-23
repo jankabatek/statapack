@@ -16,7 +16,7 @@
 *			  
 /* EXAMPLE: 
 			sysuse nlsw88.dta 
-			PLOTAREA industry, over(age) opt(`" legend(off) title("Industry shares, by age") "') 
+			PLOTAREA industry, over(age) opt( legend(off) title("Industry shares, by age") ) 
 */
 *
 *------------------j.kabatek@unimelb.edu.au, 08/2021, (c)----------------------*
@@ -56,7 +56,7 @@ end
 ********************************************************************************
 capture program drop PLOTAREA  
 program define PLOTAREA
-	syntax varlist(max=1) [if], over(varname) [OPTions(string)] 
+	syntax varlist(max=1) [if], over(varname) [OPTions(string asis)] 
 								 
 	qui { 
 		cap drop cell* 

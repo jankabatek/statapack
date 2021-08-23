@@ -18,7 +18,7 @@
 	replace x1 = 50 - x1 if gr ==1
 	 
 	PLOTTABS if gr==1, over(x1) clear 
-	PLOTTABS if gr==2, over(x1) gr(bar) opt(`" title("Frequencies of observations, conditional on x") xtitle("x") ytitle("Frequency") legend(on order(1 "Group 1" 2 "Group 2")) xsize(7)"')  gropt(`" color(%50) "')
+	PLOTTABS if gr==2, over(x1) gr(bar) opt(title("Frequencies of observations, conditional on x") xtitle("x") ytitle("Frequency") legend(on order(1 "Group 1" 2 "Group 2")) xsize(7)"')  gropt(`" color(%50))
 	
 		 
 	gen gr10 = mod(_n,10) + 1 
@@ -26,7 +26,7 @@
 	gen y =  log(x2) - log(gr10) + rnormal(0,0.01)
 	replace y = . if y <0
 	
-	PLOTMEANS y if gr10 ==1, over(x2) clear
+	PLOTMEANS y if gr10 ==1, over(x2) clear opt(legend(off) ytitle(y) xtitle(x) title(Conditional means of outcome y for 10 groups) xsize(6))
 	for num 2/10: PLOTMEANS y if gr10 ==X, over(x2) gray opt(legend(off) ytitle(y) xtitle(x) title(Conditional means of outcome y for 10 groups) xsize(6))
 	
 	  
@@ -41,7 +41,7 @@
 	 
 	webuse set https://www.jankabatek.com/datasets/
 	webuse plotdata, clear
-	qui do https://raw.githubusercontent.com/jankabatek/statapack/master/PLOTTABS.do
+	qui https://raw.githubusercontent.com/jankabatek/statapack/master/PLOTTABS.do
 	PLOTTABS if gr==1, over(x1) clear 
-	PLOTTABS if gr==2, over(x1) graph(bar) options(`" title("Frequencies of observations, conditional on x") xtitle("x") ytitle("Frequency") legend(on order(1 "Group 1" 2 "Group 2")) xsize(7)"')  gropt(`" color(%50) "')
+	PLOTTABS if gr==2, over(x1) graph(bar) options(title("Frequencies of observations, conditional on x") xtitle("x") ytitle("Frequency") legend(on order(1 "Group 1" 2 "Group 2")) xsize(7)"')  gropt(`" color(%50))
  

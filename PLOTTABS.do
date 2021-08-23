@@ -31,7 +31,7 @@
 *			  
 /* EXAMPLE: 
 			sysuse nlsw88.dta, clear
-			PLOTTABS collgrad, over(age) clear row gr(connected) opt(`" title("Share of college graduates, by age") xtitle("Age") ytitle("Share") "')
+			PLOTTABS collgrad, over(age) clear gr(connected) opt( title("Share of college graduates" "among respondents, by age") xtitle(Age) ytitle(Share) )
 */
 *
 *------------------j.kabatek@unimelb.edu.au, 08/2021, (c)----------------------*
@@ -41,13 +41,10 @@ cap mata: mata drop STEPFIND()
 mata
 function STEPFIND()
 	{
-		STEP = 0
-		i = 0
-		MATVAL = st_matrix("plot_val1")
-		while (STEP == 0) {
-			STEP = floor((max(MATVAL)/4)*(10^i))/(10^i)
-			i = i+1	 
-		}		
+		STEP 	= 0
+		MATVAL 	= st_matrix("plot_val1")
+		EXP 	= floor(log10(max(MATVAL)/4)) 
+		STEP	= floor((max(MATVAL)/4)/(10^EXP))*(10^EXP)
 		st_numscalar("ystep",STEP)
 	}
 end
@@ -57,11 +54,11 @@ end
 capture program drop PLOTTABS 
 
 program define PLOTTABS
-	syntax [varname(default=none)] [if], over(varname) [clear DIVide(real 1) dif FRame(string) FMT(string) GRaph(name) GRAYscale GROPTions(string) ///
-								 IFLabel NOGen NODraw OPTions(string) PATtern PATTERNCol PLOTonly  ///  
+	syntax [varname(default=none)] [if], over(varname) [clear DIVide(real 1) dif FRame(string) FMT(string) GRaph(name) GRAYscale GROPTions(string asis) ///
+								 IFLabel NOGen NODraw OPTions(string asis) PATtern PATTERNCol PLOTonly  ///  
 								 RELative TWOff YZero ] 		
-								 
-	qui {
+						 
+	  qui {
 		
 		** find out from which frame is the PLOTTABS command called
 		frame pwf
@@ -84,8 +81,8 @@ program define PLOTTABS
 		}
 		
 		** check whether plotted variable(s) exist (nullifies _rc for the rest)
-		cap confirm var `varname' `over'
-	 
+		cap confirm var `varlist' `over'
+		
 		** how many graphs are stored already?
 		local i = 0
 		while _rc ==0 {
@@ -100,7 +97,7 @@ program define PLOTTABS
 		else {	
 			n di as err `i' " - tabulating values for a new graph" 
 			** tabulate command
-			tab `over' `varname' `if' , matcell(cell_val`i') matrow(x_val)
+			tab `over' `varlist' `if' , matcell(cell_val`i') matrow(x_val)
 			
 			** compute conditional shares for the binary variable 'varlist'? 
 			if "`varlist'" != "" {
@@ -154,9 +151,9 @@ program define PLOTTABS
 				frame `frame_pt': label var plot_val`i'1 `"`if'"' 
 			}
 			else {
-				*local aux_num = wordcount("`varname'")
-				*local aux_label : word `aux_num' of `varname'	
-				local aux_label = "`varname'"
+				*local aux_num = wordcount("`varlist'")
+				*local aux_label : word `aux_num' of `varlist'	
+				local aux_label = "`varlist'"
 				frame `frame_pt': label var plot_val`i'1  "`aux_label'"
 			}	
 		}  
@@ -167,7 +164,7 @@ program define PLOTTABS
 			mata: STEPFIND()
 			local ystep = ystep
 			local ymax = ystep*5
-			local options `options' ylabel(0(`ystep')`ymax')
+			local options `options' ylabel(0(`ystep')`ymax') ysc(r(0 `ymax'))
 		}	
 		
 		** pattern definition for visual separation of distinct graph lines
@@ -233,5 +230,4 @@ program define PLOTTABS
 		 
 	}
 end
- 
- PLOTTABS, over(age) clear
+  
