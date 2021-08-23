@@ -76,8 +76,7 @@ program define PLOTTABS
 		
 		** if `clear', delete the graph data already stored in the frame
 		if "`plotonly'" == ""  {
-			if "`clear'" != "" frame `frame_pt': cap drop x_val* 
-			if "`clear'" != "" frame `frame_pt': cap drop plot_val* 
+			if "`clear'" != "" frame `frame_pt': cap clear 
 		}
 		
 		** check whether plotted variable(s) exist (nullifies _rc for the rest)

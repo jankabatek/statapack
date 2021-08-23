@@ -52,8 +52,10 @@ Code:
     qui do https://raw.githubusercontent.com/jankabatek/statapack/master/PLOTMEANS.do
     // conditional means for the first group (gr10=1), option clear erases previous PLOT data from the memory
     PLOTMEANS y if gr10 ==1, over(x2) clear
-    // conditional means for the other groups, specify the twoway options & graph options (options are wrapped in `" "' to allow for titles and legends that use parentheses) 
-    for num 2/10: PLOTMEANS y if gr10 ==X, over(x2) gray opt(legend(off) ytitle(y) xtitle(x) title(Conditional means of outcome y for 10 groups) xsize(6))
+    // conditional means for the other groups, specify the twoway options & graph options
+    forvalues g = 2/10{
+        PLOTMEANS y if gr10 ==`g', over(x2) gray opt(legend(off) ytitle(y) xtitle(x) title("Means of outcome y for `g' groups," "conditional on x") xsize(6))
+    }
 
 
 ## Example 3: Stacked conditional shares with PLOTAREA
