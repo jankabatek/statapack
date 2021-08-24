@@ -24,7 +24,7 @@ If you like these commands and would like to help with converting them into prop
 
 ## Example 1: Conditional frequencies with PLOTTABS
 
-This example is equivalent to merging two histograms with discrete bin widths (with option *freq*):
+This example is equivalent to merging two histograms with discrete bin widths and option *freq*:
  
 ![2 histograms](figures/2histograms.png) 
 
@@ -60,7 +60,7 @@ Code:
 
 ## Example 3: Stacked conditional shares with PLOTAREA
 
-This example plots how many observations belong to one of the four mutually-exclusive groups of observations, conditional on a specific value of $x$.
+This example plots how many observations belong to each of four mutually-exclusive groups of observations, conditional on a specific value of *x*.
  
 ![Conditional shares](figures/plotarea.png) 
 
@@ -69,4 +69,25 @@ Code:
     webuse set https://www.jankabatek.com/datasets/
     webuse plotdata, clear
     qui do https://raw.githubusercontent.com/jankabatek/statapack/master/PLOTAREA.do
-    PLOTAREA z, over(x3) opt(title("Shares of observations belonging"  "to groups 1-4, conditional on x") xtitle("x") ytitle("Share") legend(on rows(4) pos(3) order(1 "Group 1" 2 "Group 2" 3 "Group 3" 4 "Group 4")) xsize(7))
+    PLOTAREA gr4, over(x3) opt(title("Shares of observations belonging"  "to groups 1-4, conditional on x") xtitle("x") ytitle("Share") legend(on rows(4) pos(3) order(1 "Group 1" 2 "Group 2" 3 "Group 3" 4 "Group 4")) xsize(7))
+
+## Example 4: Multiple sets of coefficient estimates with PLOTB
+
+This example plots coefficient estimates and 95% confidence intervals corresponding to a factorized regressor *x* from three separate regressions. 
+ 
+![Conditional shares](figures/cefficients.png) 
+
+Code:
+
+    webuse set https://www.jankabatek.com/datasets/
+    webuse plotdata, clear
+    qui do https://raw.githubusercontent.com/jankabatek/statapack/master/PLOTB.do
+    // regression model 1
+    reg z1 i.x3
+    PLOTB i.x3, clear 
+    // regression model 2
+    reg z2 i.x3
+    PLOTB i.x3
+    // regression model 3
+    reg z3 i.x3
+    PLOTB i.x3, opt(title(Comparing coefficient estimates from three regression models) xtitle("Value of factorized regressor x") ytitle("Coefficient estimate") legend(on rows(1) order(4 "1st coeff.set" 5 "2nd coeff.set" 6 "3rd coeff.set")) xsize(6.5))

@@ -24,9 +24,9 @@
 *           - graphregion is white by default 
 *
 /* EXAMPLE: 
-			sysuse nlsw88.dta
+			sysuse nlsw88.dta, clear
 			reg never_married i.age
-			PLOTB age, clear gr(connected) opt(`" title("Title") "')
+			PLOTB i(36/46).age, clear gr(connected) opt(title("Title"))
 */
 *
 *------------------j.kabatek@unimelb.edu.au, 08/2021, (c)----------------------*
@@ -35,14 +35,14 @@ capture program drop PLOTB
 
 program define PLOTB
 
-	syntax  anything,	[clear CONstraint(numlist max=2) DROPZero GRaph(name) FRame(string) NOSE NOGen OPTions(string) PLOTonly XSHift(real 0)  YSHift(real 0)  ]  
-		local varlist `anything'
-		  
-		local color1 
-		local color2
-		local color3
-		local color4
-		local color5
+	syntax  varlist(fv),	[clear CONstraint(numlist max=2) DROPZero GRaph(name) FRame(string) NOSE NOGen OPTions(string asis) PLOTonly XSHift(real 0)  YSHift(real 0)  ]  
+		
+		cap _fv_check_depvar `varlist'
+		if _rc != 0 {
+		    local factor = 1
+		    fvexpand `varlist'
+			local varlist = r(varlist)
+		}
 								 
 		** find out from which frame is the PLOTTABS command called
 		frame pwf
@@ -101,7 +101,8 @@ program define PLOTB
 
 			mat PL = J(1,`cols',.)
 			/* READ ESTIMATES INTO A MATRIX */
-			qui forvalues ii= `min'/`max' {
+			
+			/* qui forvalues ii= `min'/`max' {
 				cap di _b[`ii'.`varlist']
 				if _rc ==0 {
 					if "`nose'" =="" {
@@ -111,6 +112,33 @@ program define PLOTB
 					}
 					else {
 						mat PL = [PL \ `ii' , _b[`ii'.`varlist']]
+					}
+				}
+			}
+			*/
+			
+			local ii = 0
+			qui foreach var in `varlist' {
+			    
+				*determine the value of the factorized variable, or just start from 1 (for non-factorized variables)
+				if `factor'==1 {
+					local pos = strpos("`var'","i") + 1
+					local length = strpos("`var'",".") - `pos'
+					local ii =  real(substr("`var'",`pos',`length'))
+				}
+				else{
+				    local ii = `ii' + 1
+				}
+					
+				cap di _b[`var']
+				if _rc ==0 {
+					if "`nose'" =="" {
+						local LC = _b[`var'] - 1.96*_se[`var']
+						local UC = _b[`var'] + 1.96*_se[`var']
+						mat PL = [PL \ `ii' , _b[`var'], `LC', `UC' ]
+					}
+					else {
+						mat PL = [PL \ `ii' , _b[`var']]
 					}
 				}
 			}
@@ -157,4 +185,6 @@ program define PLOTB
 		 
 end
 
+ 
+	
  

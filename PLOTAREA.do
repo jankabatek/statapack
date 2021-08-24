@@ -80,6 +80,7 @@ program define PLOTAREA
 		local graph_syntax twoway `graph_syntax'
 		`graph_syntax', graphregion(fcolor(white) lcolor(white)) `options' 
   
+		cap drop cell_val* x_val1
 	}
 end
  
