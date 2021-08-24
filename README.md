@@ -75,7 +75,7 @@ Code:
 
 This example plots coefficient estimates and 95% confidence intervals corresponding to a factorized regressor *x* from three separate regressions. 
  
-![Conditional shares](figures/cefficients.png) 
+![Conditional shares](figures/coefficients.png) 
 
 Code:
 
