@@ -17,16 +17,16 @@ The PLOT family of commands is particularly useful for visual analyses of admin 
 4. PLOTAREA plots conditional shares of categorical variables (e.g., industry shares over time)
 5. PLOTB plots coefficient estimates of explanatory variables
 
-Apart from speed gains, the key advantage of PLOT commands is that they allow the user to **store multiple graph data in memory and overlay them into a single plot**. They also do so in a very efficient manner, requiring the bare minimum of operating memory. This facilitates comparisons across groups and models, and it is likely to prove extremely handy in early exploratory stages of empirical admin data projects. For example, you can use PLOT commands to visualize whether the dynamics of labor participation rate differ by gender or education attainment, or whether the magnitudes of your regression coefficient estimates differ between the candidate model specifications. 
+Apart from speed gains, the key advantage of PLOT commands is that they allow the user to **store multiple graph data in memory and overlay them into a single plot**. The data are stored in a very efficient manner, requiring the bare minimum of operating memory. This facilitates comparisons across groups and models, and it is likely to prove extremely handy in early exploratory stages of empirical admin data projects. For example, you can use PLOT commands to visualize whether the dynamics of labor participation rate differ by gender or education attainment, or whether the magnitudes of your regression coefficient estimates differ between the candidate model specifications. 
 
-To use these commands, simply execute the respective do-files in the Stata command line (or paste them into the preamble of your code). The examples below illustrate the workflow of all PLOT commands, and the dofiles contain more information about the commands and their options.  
+To use these commands, simply execute the respective do-files in the Stata command line (or paste them into the preamble of your code). The examples below illustrate the workflow of all PLOT commands, and the corresponding dofiles contain more information about the commands and their options.  
 
-Note: PLOT commands **only work with Stata 16 and above** because they leverage frame structures. These structures are essential for speed and memory gains, and they store all graph data. Should you wish to access (and adjust) this stored graph data, you can find it in the frame called 
-    frame_pt
+Note: PLOT commands **only work with Stata 16 and above** because they leverage frame structures. These structures are essential for the speed and memory gains. Should you wish to access (and adjust) the graph data stored by PLOT commands, you can do so by changing your frame to 'frame pt':
+    frame change frame_pt
 
-Please also note that all these commands are a work in progress. The degree of customization differs from command to command, and bugs may appear. 
+Please also note that all these commands are a work in progress. The degree of customization differs from command to command, and bugs may occur. 
 If you encounter an error, feel free to get in touch with a working example that demonstrates the error. 
-If you like these commands and would like to help with converting them into proper .ado Stata routines with help files and all that, please get in touch. 
+If you like these commands and would like to help with converting them into proper .ado Stata routines with help files and all that, please get in touch too. 
 
 ## Example 1: Conditional frequencies with PLOTTABS
 
