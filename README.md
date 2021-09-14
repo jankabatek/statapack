@@ -10,14 +10,16 @@ this is a collection of custom Stata programs that I use on a regular basis:
     PLOTTABS
     TICTOC
 
-The PLOT family of commands is particularly useful for visual analyses of admin data, enabling users to produce a variety of highly customizable plots **in a fraction of time and memory required by native Stata commands**:  
+The PLOT family of commands is particularly useful for visual analyses of admin data, enabling users to produce a variety of highly customizable plots **in a fraction of time required by Stata's native graphing commands**:  
 1. PLOTTABS plots conditional frequencies of observations (e.g., numbers of people observed each time)
 2. PLOTTABS also plots conditional shares of binary variables (e.g., employment shares over time)
 3. PLOTMEANS plots conditional means of any variables (e.g., average wages over time)
 4. PLOTAREA plots conditional shares of categorical variables (e.g., industry shares over time)
 5. PLOTB plots coefficient estimates of explanatory variables
 
-Apart from speed and memory gains, the key advantage of PLOT commands is that they allow the user to **store multiple graphs in memory and overlay them into a single plot**, facilitating comparisons across groups and models. For example, you can use these commands to visualize whether labor participation dynamics of women differ from those of men, or whether the magnitudes of your coefficient estimates differ between your candidate model specifications. To use the PLOT commands, simply execute the respective do-files in the Stata command line (or paste them into the preamble of your code). The examples below illustrate the workflow of all PLOT commands, and the dofiles contain more information about the commands and their options.  
+Apart from speed gains, the key advantage of PLOT commands is that they allow the user to **store multiple graph data in memory and overlay them into a single plot**, and to do so in a very efficient manner, requiring the bare minimum of operating memory. This facilitates comparisons across groups and models, and it can prove extremely handy in the early exploratory stages of empirical projects. For example, you can use PLOT commands to visualize whether the dynamics of labor participation rate differ by gender or education attainment, or whether the magnitudes of your regression coefficient estimates differ between the candidate model specifications. 
+
+To use these commands, simply execute the respective do-files in the Stata command line (or paste them into the preamble of your code). The examples below illustrate the workflow of all PLOT commands, and the dofiles contain more information about the commands and their options.  
 
 Note: PLOT commands **only work with Stata 16 and above** because they leverage frame structures. These structures are essential for speed and memory gains, and they store all graph data. Should you wish to access (and adjust) this stored graph data, you can find it in the frame called 
     frame_pt
