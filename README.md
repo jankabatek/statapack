@@ -97,6 +97,3 @@ Code:
     // regression model 3
     reg z3 i.x3
     PLOTB i.x3, opt(title(Comparing coefficient estimates from three regression models) xtitle("Value of factorized regressor x") ytitle("Coefficient estimate") legend(on rows(1) order(4 "1st coeff.set" 5 "2nd coeff.set" 6 "3rd coeff.set")) xsize(6.5))
-    
-    
-## Additional examples of graphs made with PLOT commands:    
