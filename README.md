@@ -10,7 +10,8 @@ this is a collection of custom Stata programs that I use on a regular basis:
     PLOTTABS
     TICTOC
 
-The PLOT family of commands is particularly useful for visual analyses of admin data, enabling users to produce a variety of highly customizable plots **in a fraction of time required by Stata's native graphing commands**:  
+The PLOT family of commands is particularly useful for visual analyses of admin data, enabling users to produce a variety of highly customizable plots **in a fraction of time required by Stata's native graphing commands**. Benchmarks at the bottom of this readme show that PLOT commands attain 10-25 times faster processing times, with the efficiency gains growing with sample size. 
+  
 1. PLOTTABS plots conditional frequencies of observations (e.g., numbers of people observed each time)
 2. PLOTTABS also plots conditional shares of binary variables (e.g., employment shares over time)
 3. PLOTMEANS plots conditional means of any variables (e.g., average wages over time)
@@ -22,6 +23,7 @@ Apart from speed gains, the key advantage of PLOT commands is that they allow th
 To use these commands, simply execute the respective do-files in the Stata command line (or paste them into the preamble of your code). The examples below illustrate the workflow of all PLOT commands, and the corresponding dofiles contain more information about the commands and their options.  
 
 Note: PLOT commands **only work with Stata 16 and above** because they leverage frame structures. These structures are essential for the speed and memory gains. Should you wish to access (and adjust) the graph data stored by PLOT commands, you can do so by changing your frame to 'frame pt':
+
     frame change frame_pt
 
 Please also note that all these commands are a work in progress. The degree of customization differs from command to command, and bugs may occur. 
@@ -30,7 +32,8 @@ If you like these commands and would like to help with converting them into prop
 
 ## Example 1: Conditional frequencies with PLOTTABS
 
-This example is equivalent to merging two histograms with discrete bin widths and option *freq*:
+This example is equivalent to combining two histograms with discrete bin widths and option *freq*. 
+However, the plot command is **10 times faster** than the native command. 
  
 ![2 histograms](figures/2histograms.png) 
 
@@ -66,7 +69,7 @@ Code:
 
 ## Example 3: Stacked conditional shares with PLOTAREA
 
-This example plots how many observations belong to each of four mutually exclusive groups of observations, conditional on a specific value of *x*.
+This example plots how many observations belong to each of four mutually exclusive groups of observations, conditional on a specific value of *x*
  
 ![Conditional shares](figures/plotarea.png) 
 
@@ -97,3 +100,53 @@ Code:
     // regression model 3
     reg z3 i.x3
     PLOTB i.x3, opt(title(Comparing coefficient estimates from three regression models) xtitle("Value of factorized regressor x") ytitle("Coefficient estimate") legend(on rows(1) order(4 "1st coeff.set" 5 "2nd coeff.set" 6 "3rd coeff.set")) xsize(6.5))
+
+## Benchmarks against a native Stata graphing command
+
+### PLOTTABS with 8M observations:
+
+    . // Log file, run with Stata 17.0, OS Windows 10. Uses routine TICTOC that is part of statapack.
+    . webuse set https://www.jankabatek.com/datasets/
+    . webuse plotdata, clear 
+    . expand 100
+    (7,878,222 observations created)
+
+    . // PLOT command
+    . TIC
+    . PLOTTABS if gr==1, over(x1) clear nogen
+    1 - tabulating values for a new graph
+      - plot type: line
+    . PLOTTABS if gr==2, over(x1) graph(bar) 
+    2 - tabulating values for a new graph
+      - plot type: bar
+    . TOC
+    Elapsed time: 2.947 sec
+
+    . // Twoway native command
+    . TIC
+    . twoway (histogram x1 if gr==1, discrete) (histogram x1 if gr==2, discrete)
+    . TOC
+    Elapsed time: 27.757 sec
+
+-> PLOTTABS is **10 times faster!**; 
+
+### PLOTTABS with 80M observations:
+
+    . // PLOT command
+    . TIC
+    . PLOTTABS if gr==1, over(x1) clear nogen
+    1 - tabulating values for a new graph
+      - plot type: line
+    . PLOTTABS if gr==2, over(x1) graph(bar) 
+    2 - tabulating values for a new graph
+      - plot type: bar
+    . TOC
+    Elapsed time: 12.367 sec
+
+    . // Twoway native command
+    . TIC
+    . twoway (histogram x1 if gr==1, discrete) (histogram x1 if gr==2, discrete)
+    . TOC
+    Elapsed time: 323.938 sec
+     
+-> PLOTTABS is **more than 25 times faster!**    
