@@ -1,6 +1,6 @@
 # Statapack
 
-this is a collection of custom stata programs that I use on a regular basis:
+this is a collection of custom Stata programs that I use on a regular basis:
 
     EST_ADD
     EST_REPLACE
@@ -10,16 +10,20 @@ this is a collection of custom stata programs that I use on a regular basis:
     PLOTTABS
     TICTOC
 
-The PLOT family of commands is particularly useful, enabling Stata users to:
-1. plot multiple conditional frequencies (e.g., numbers of workers by age and gender)
-2. plot multiple conditional shares of dummy variables (e.g., employment shares over time by region)
-3. plot multiple conditional means of variables (e.g., average wages over time by gender)
-4. plot multiple conditional shares of categorical variables (e.g., industry shares over time)
-5. plot multiple coefficient estimates of factorized regressors
+The PLOT family of commands is particularly useful for visual analyses of admin data, enabling users to produce a variety of highly customizable plots **in a fraction of time and memory required by native Stata commands**:  
+1. PLOTTABS plots conditional frequencies of observations (e.g., numbers of people observed each time)
+2. PLOTTABS also plots conditional shares of binary variables (e.g., employment shares over time)
+3. PLOTMEANS plots conditional means of any variables (e.g., average wages over time)
+4. PLOTAREA plots conditional shares of categorical variables (e.g., industry shares over time)
+5. PLOTB plots coefficient estimates of explanatory variables
 
-The PLOT family has two main advantages: the commands are very fast, they use the bare minimum of memory, and they allow user to store multiple graphs in memory and overlay them into one plot. To use the commands, just execute the respective do-files in the Stata command line (or paste them into the preamble of your code). 
+Apart from speed and memory gains, the key advantage of PLOT commands is that they allow the user to **store multiple graphs in memory and overlay them into a single plot**, facilitating comparisons across groups and models. For example, you can use these commands to visualize whether labor participation dynamics of women differ from those of men, or whether the magnitudes of your coefficient estimates differ between your candidate model specifications. To use the PLOT commands, simply execute the respective do-files in the Stata command line (or paste them into the preamble of your code). The examples below illustrate the workflow of all PLOT commands, and the dofiles contain more information about the commands and their options.  
 
-Note: PLOT commands only work with Stata 16 and above because they leverage frame structures. If you want to make it work for earlier versions of Stata, remove the frame structures from the code. 
+Note: PLOT commands **only work with Stata 16 and above** because they leverage frame structures. These structures are essential for speed and memory gains, and they store all graph data. Should you wish to access (and adjust) this stored graph data, you can find it in the frame called 
+    frame_pt
+
+Please also note that all these commands are a work in progress. The degree of customization differs from command to command, and bugs may appear. 
+If you encounter an error, feel free to get in touch with a working example that demonstrates the error. 
 If you like these commands and would like to help with converting them into proper .ado Stata routines with help files and all that, please get in touch. 
 
 ## Example 1: Conditional frequencies with PLOTTABS
@@ -60,7 +64,7 @@ Code:
 
 ## Example 3: Stacked conditional shares with PLOTAREA
 
-This example plots how many observations belong to each of four mutually-exclusive groups of observations, conditional on a specific value of *x*.
+This example plots how many observations belong to each of four mutually exclusive groups of observations, conditional on a specific value of *x*.
  
 ![Conditional shares](figures/plotarea.png) 
 
@@ -91,3 +95,6 @@ Code:
     // regression model 3
     reg z3 i.x3
     PLOTB i.x3, opt(title(Comparing coefficient estimates from three regression models) xtitle("Value of factorized regressor x") ytitle("Coefficient estimate") legend(on rows(1) order(4 "1st coeff.set" 5 "2nd coeff.set" 6 "3rd coeff.set")) xsize(6.5))
+    
+    
+## Additional examples of graphs made with PLOT commands:    
