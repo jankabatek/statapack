@@ -33,8 +33,8 @@
 	 gen z2 = round(rnormal(0.5,0.1)) + 0.25*(_n>40000)
 	 gen z3 = round(rnormal(0.6,0.1)) + 0.35*(_n>50000)
  
-	 reg z1 i.x3
-	 PLOTB i.x3, clear 
+	 reg z1 i.x4
+	 PLOTB i.x4, clear 
 	 reg z2 i.x3
 	 PLOTB i.x3
 	 reg z3 i.x3
