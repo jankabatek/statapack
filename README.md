@@ -103,13 +103,17 @@ Code:
 
 ## Benchmarks against a native Stata graphing command
 
-### PLOTTABS with 8M observations:
+I ran a few benchmark tests in which I pitted the PLOTTABS command against its native counterpart, 'twoway (histogram)', with an increasingly large sample size.
+- with 8M observations, PLOTTABS proved 10-times faster than the native command
+- with 80M observations, PLOTTABS proved 25-times faster than the native command
+- with 240M observations, PLOTTABS proved 300-times faster than the native command, reducing the 2.5-hour estimation time down to 30 seconds. 
+
+### Log-file, 240M observations:
 
     . // Log file, run with Stata 17.0, OS Windows 10. Uses routine TICTOC that is part of statapack.
     . webuse set https://www.jankabatek.com/datasets/
     . webuse plotdata, clear 
-    . expand 100
-    (7,878,222 observations created)
+    . expand 3000 
 
     . // PLOT command
     . TIC
@@ -120,33 +124,11 @@ Code:
     2 - tabulating values for a new graph
       - plot type: bar
     . TOC
-    Elapsed time: 2.947 sec
+    Elapsed time: 0.5023 mins
 
     . // Twoway native command
     . TIC
     . twoway (histogram x1 if gr==1, discrete) (histogram x1 if gr==2, discrete)
     . TOC
-    Elapsed time: 27.757 sec
-
--> PLOTTABS is **10 times faster!**; 
-
-### PLOTTABS with 80M observations:
-
-    . // PLOT command
-    . TIC
-    . PLOTTABS if gr==1, over(x1) clear nogen
-    1 - tabulating values for a new graph
-      - plot type: line
-    . PLOTTABS if gr==2, over(x1) graph(bar) 
-    2 - tabulating values for a new graph
-      - plot type: bar
-    . TOC
-    Elapsed time: 12.367 sec
-
-    . // Twoway native command
-    . TIC
-    . twoway (histogram x1 if gr==1, discrete) (histogram x1 if gr==2, discrete)
-    . TOC
-    Elapsed time: 323.938 sec
-     
--> PLOTTABS is **more than 25 times faster!**    
+    Elapsed time: 147.2696 mins
+      
