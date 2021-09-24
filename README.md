@@ -10,7 +10,7 @@ this is a collection of custom Stata programs that I use on a regular basis:
     PLOTTABS
     TICTOC
 
-The PLOT family of commands is particularly useful for visual analyses of admin data, enabling users to produce a variety of highly customizable plots **in a fraction of time required by Stata's native graphing commands**. Benchmarks at the bottom of this readme show that PLOTTABS attains at least 10 times faster processing times than the native command, with the efficiency gains growing with sample size. 
+The PLOT family of commands is particularly useful for visual analyses of admin data, enabling users to produce a variety of highly customizable plots **in a fraction of time required by Stata's native graphing commands**. Benchmarks at the bottom of this readme show that PLOTTABS can prove more than 100-times faster than the native command, with the efficiency gains growing with sample size. 
   
 1. PLOTTABS plots conditional frequencies of observations (e.g., numbers of people observed each time)
 2. PLOTTABS also plots conditional shares of binary variables (e.g., employment shares over time)
@@ -103,11 +103,12 @@ Code:
 
 ## Benchmarks against a native Stata graphing command
 
-I ran a few benchmark tests in which I pitted the PLOTTABS command against its native counterpart, 'twoway (histogram)', with an increasingly large sample size.
-- with 8M observations, PLOTTABS proved 10-times faster than the native command
-- with 80M observations, PLOTTABS proved 25-times faster than the native command
-- with 240M observations, PLOTTABS proved 300-times faster than the native command, reducing the 2.5-hour estimation time down to 30 seconds. 
+I ran a few benchmark tests in which I pitted the PLOTTABS command against its native counterpart, 'twoway (histogram)', with an increasingly large sample size. The efficiency gains were so large that the only sensible way to plot their relative computation times was using the logarithmic scale. At 240M observations, PLOTTABS proved 300-times faster than twoway histogram. 
 
+![Conditional shares](figures/benchmark.png) 
+ 
+
+ 
 ### Log-file, 240M observations:
 
     . // Log file, run with Stata 17.0, OS Windows 10. Uses routine TICTOC that is part of statapack.
