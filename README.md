@@ -22,7 +22,7 @@ Apart from speed gains, the key advantage of PLOT commands is that they allow th
 
 To use these commands, simply execute the respective do-files in the Stata command line (or paste them into the preamble of your code). The examples below illustrate the workflow of all PLOT commands, and the corresponding dofiles contain more information about the commands and their options.  
 
-Note: PLOT commands **only work with Stata 16 and above** because they leverage frame structures. These structures are essential for the speed and memory gains. Should you wish to access (and adjust) the graph data stored by PLOT commands, you can do so by changing your frame to 'frame pt':
+Note: PLOT commands **only work with Stata 16 and above** because they leverage frame structures. These structures are essential for the speed and memory gains. Should you wish to access (and adjust) the graph data stored by PLOT commands, you can do so by setting your frame to 'frame pt':
 
     frame change frame_pt
 
@@ -32,8 +32,7 @@ If you like these commands and would like to help with converting them into prop
 
 ## Example 1: Conditional frequencies with PLOTTABS
 
-This example is equivalent to combining two histograms with discrete bin widths and option *freq*. 
-However, the plot command is **10 times faster** than the native command. 
+This example is equivalent to combining two histograms with discrete bin widths and option *freq*.   
  
 ![2 histograms](figures/2histograms.png) 
 
