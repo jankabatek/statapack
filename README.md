@@ -9,6 +9,12 @@ this is a collection of custom Stata programs that I use on a regular basis:
     PLOTMEANS
     PLOTTABS
     TICTOC
+    
+
+**!!!**
+**PLEASE NOTE THAT THE PLOT COMMANDS HAVE BEEN DEPRECATED. [NEW COMMANDS CAN BE FOUND HERE](https://github.com/jankabatek/plotsuite)**
+**!!!**
+
 
 The PLOT family of commands is particularly useful for visual analyses of admin data, enabling users to produce a variety of highly customizable plots **in a fraction of time required by Stata's native graphing commands**. Benchmarks at the bottom of this readme show that PLOTTABS can prove more than 100-times faster than the native commands, with the efficiency gains growing with sample size. 
   
